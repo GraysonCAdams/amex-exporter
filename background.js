@@ -1,10 +1,7 @@
 chrome.action.onClicked.addListener((tab) => {
-  chrome.scripting.executeScript({
-    target: { tabId: tab.id },
-    function: function () {
-      window.location =
-        "https://global.americanexpress.com/dashboard/?download";
-    },
+  chrome.tabs.create({
+    url: "https://global.americanexpress.com/dashboard/?download",
+    active: true,
   });
 });
 
@@ -49,6 +46,15 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
             });
           }
         }
+<<<<<<< HEAD
+        chrome.storage.local.set({ accounts: Object.keys(accounts) });
+        chrome.storage.local.set({ exportedTime: Date.now() });
+        chrome.tabs.create({
+          url: "https://app.youneedabudget.com/",
+          active: true,
+        });
+=======
+>>>>>>> 166f1714409c832972a06a27c846445599f2d320
       });
   },
   {
@@ -56,3 +62,29 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
   },
   ["requestHeaders"]
 );
+
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if ("setStorage" in request) {
+    chrome.storage.local
+      .set({ [request.setStorage]: request.data })
+      .then(() => {
+        sendResponse({
+          data: request.data,
+        });
+      });
+  } else if ("getStorage" in request) {
+    try {
+      chrome.storage.local.get(request.getStorage).then((result) => {
+        sendResponse({
+          data: result[request.getStorage],
+        });
+      });
+    } catch (e) {
+      console.error(e);
+      sendResponse({
+        data: null,
+      });
+    }
+  }
+  return true;
+});
