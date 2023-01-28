@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "AMEX Exporter",
+  "description": "Download all of your recent AMEX statements as Quicken files so you can import easily into YNAB.",
+  "version": "1.0",
+  "action": {},
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "host_permissions": ["https://global.americanexpress.com/dashboard"],
+
+  "permissions": ["activeTab", "webRequest", "downloads", "scripting"]
+}
