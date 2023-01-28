@@ -52,7 +52,7 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
       });
   },
   {
-    urls: ["https://global.americanexpress.com/dashboard/?download"],
+    urls: ["https://global.americanexpress.com/dashboard/?download*"],
   },
   ["requestHeaders"]
 );
