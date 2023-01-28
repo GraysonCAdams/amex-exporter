@@ -8,19 +8,14 @@ chrome.action.onClicked.addListener((tab) => {
   });
 });
 
-chrome.webRequest.onResponseStarted.addListener(function (details) {}, {
-  urls: ["https://global.americanexpress.com/dashboard/?download"],
-});
-
 chrome.webRequest.onBeforeSendHeaders.addListener(
   function (details) {
-    console.log(details);
     const headers = details.requestHeaders;
     const newHeaders = {};
     for (const header of headers) {
       newHeaders[header["name"]] = header["value"];
     }
-    fetch("https://global.americanexpress.com/dashboard?fetch", {
+    fetch("https://global.americanexpress.com/dashboard", {
       method: "GET",
       mode: "same-origin",
       cache: "no-cache",
@@ -35,11 +30,9 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
             .split(']";')[0]
             .trim()
             .replaceAll('\\"', '"') + "]";
-        console.log(initialState);
         let productsList =
           initialState.split('"productsList",')[1].split("]]]]]")[0] + "]]]";
         productsList = JSON.parse(productsList);
-        console.log(productsList);
         let accounts = {};
         for (const arr of productsList) {
           if (
@@ -56,11 +49,10 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
             });
           }
         }
-        console.log(accounts);
       });
   },
   {
-    urls: ["https://global.americanexpress.com/dashboard/*"],
+    urls: ["https://global.americanexpress.com/dashboard/?download"],
   },
   ["requestHeaders"]
 );
