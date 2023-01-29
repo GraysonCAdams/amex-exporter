@@ -46,12 +46,6 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
             });
           }
         }
-        chrome.storage.local.set({ accounts: Object.keys(accounts) });
-        chrome.storage.local.set({ exportedTime: Date.now() });
-        chrome.tabs.create({
-          url: "https://app.youneedabudget.com/",
-          active: true,
-        });
       });
   },
   {
